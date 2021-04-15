@@ -18,15 +18,15 @@ class CreateAnimeListsTable extends Migration
 //            $table->string('username');
             $table->foreignId('user_id')->references('id')->on('users');
             $table->foreignId('anime_id')->references('id')->on('animes');
-            $table->integer('my_watched_episodes');
-            $table->dateTime('my_start_date');
-            $table->dateTime('my_finish_date');
-            $table->integer('my_score');
-            $table->integer('my_status');
-            $table->integer('my_rewatching');
-            $table->integer('my_rewatching_ep');
-            $table->dateTime('my_last_updated');
-            $table->string('my_tags');
+            $table->integer('my_watched_episodes')->nullable();
+            $table->dateTime('my_start_date')->nullable();
+            $table->dateTime('my_finish_date')->nullable();
+            $table->integer('my_score')->nullable();
+            $table->integer('my_status')->nullable();
+            $table->integer('my_rewatching')->nullable();
+            $table->integer('my_rewatching_ep')->nullable();
+            $table->dateTime('my_last_updated')->nullable();
+            $table->string('my_tags')->nullable();
             $table->timestamps();
         });
     }

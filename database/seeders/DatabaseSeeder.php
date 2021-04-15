@@ -13,7 +13,8 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-//        $this->call(AnimeSeeder::class);
+        $this->call(AnimeSeeder::class);
         $this->call(UserSeeder::class);
+        $this->call(ListSeeder::class);
     }
 }
