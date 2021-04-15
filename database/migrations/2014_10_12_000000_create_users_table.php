@@ -16,22 +16,22 @@ class CreateUsersTable extends Migration
         Schema::create('users', function (Blueprint $table) {
             $table->id();
 //            $table->string('user_id');
-            $table->string('username');
-            $table->integer('user_watching');
-            $table->integer('user_completed');
-            $table->integer('user_onhold');
-            $table->integer('user_dropped');
-            $table->integer('user_plantowatch');
-            $table->float('user_days_spent_watching');
-            $table->string('gender');
-            $table->string('location');
-            $table->date('birth_date');
-            $table->string('access_rank');
-            $table->date('join_date');
-            $table->dateTime('last_online');
-            $table->float('stats_mean_score');
-            $table->integer('stats_rewatched');
-            $table->integer('stats_episodes');
+            $table->string('username')->nullable();
+            $table->integer('user_watching')->nullable();
+            $table->integer('user_completed')->nullable();
+            $table->integer('user_onhold')->nullable();
+            $table->integer('user_dropped')->nullable();
+            $table->integer('user_plantowatch')->nullable();
+            $table->float('user_days_spent_watching')->nullable();
+            $table->string('gender')->nullable();
+            $table->string('location')->nullable();
+            $table->date('birth_date')->nullable();
+            $table->string('access_rank')->nullable();
+            $table->date('join_date')->nullable();
+            $table->dateTime('last_online')->nullable();
+            $table->float('stats_mean_score')->nullable();
+            $table->integer('stats_rewatched')->nullable();
+            $table->integer('stats_episodes')->nullable();
             $table->timestamps();
 
         });
