@@ -38,14 +38,19 @@ class ListSeeder extends Seeder
                 }
             }
 
-            AnimeList::create($data);
+            try {
+                AnimeList::create($data);
+            } catch (\Exception $e) {
+                // insert failed.. ignore and more on...
+                continue;
+            }
         }
     }
 
 
     public function proccessCSV($storage)
     {
-        $csv = array_map('str_getcsv', file($storage->path('dataset/animelists_sample.csv')));
+        $csv = array_map('str_getcsv', file($storage->path('dataset/animelists_cleaned.csv')));
         array_walk($csv, function (&$a) use ($csv) {
             $a = array_combine($csv[0], $a);
         });
