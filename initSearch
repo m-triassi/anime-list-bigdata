@@ -1,0 +1,32 @@
+#!/bin/bash
+# Each configurator and searchable model benefits from auto-discovery if and only if each of the index configurators is named
+# {SearchableModelName}IndexConfigurator.php
+
+while getopts "d" OPTION
+do
+	case $OPTION in
+		d)
+		    for config in "./app/Configurators"/*
+		    do
+		        file=$(echo $config | cut -c21-1000000)
+		        class_name=${file%.*}
+                config_namespace="App\Configurators\\$class_name"
+		        php artisan elastic:drop-index "$config_namespace"
+            done
+			;;
+		\?)
+			echo "if you would like to delete existing indices first, use the -d flag"
+			exit
+			;;
+	esac
+done
+
+for config in "./app/Configurators"/*
+do
+    file=$(echo $config | cut -c21-1000000)
+    class_name=${file%.*}
+    model_name=${class_name%IndexConfigurator*}
+    config_namespace="App\Configurators\\$class_name"
+    php artisan elastic:create-index "$config_namespace"
+    php artisan scout:import "App\Models\\$model_name"
+done
