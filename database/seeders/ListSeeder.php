@@ -21,10 +21,10 @@ class ListSeeder extends Seeder
         if ($storage->exists('dataset/animelist.bin')) {
             $csv = unserialize($storage->get('dataset/animelist.bin'));
         } else {
-            $csv = $this->proccessCSV($storage);
+            $csv = $this->processCSV($storage);
         }
         foreach ($csv as $data) {
-            if ($data['anime_id'] == '') {
+            if (empty($data) || $data['anime_id'] == '') {
                 continue;
             }
             foreach ($data as $key => &$column) {
@@ -48,15 +48,37 @@ class ListSeeder extends Seeder
     }
 
 
-    public function proccessCSV($storage)
+    public function processCSV($storage)
     {
-        $csv = array_map('str_getcsv', file($storage->path('dataset/animelists_cleaned.csv')));
+        $csv = array_map('str_getcsv', file($storage->path('dataset/animelists_sample.csv')));
         array_walk($csv, function (&$a) use ($csv) {
-            $a = array_combine($csv[0], $a);
+            try {
+                $a = array_combine($csv[0], $a);
+            } catch (\ErrorException $e) {
+                $a = [];
+            }
         });
         array_shift($csv);
         $storage->put('dataset/animelist.bin', serialize($csv));
 
         return $csv;
+    }
+
+    public function process($storage)
+    {
+        $stream = fopen($storage->path('dataset/animelists_sample.csv'), "r+");
+        $user = User::first();
+        while (($data = fgetcsv($stream, 1000, ",")) !== false) {
+            if($data[0] == "username") {
+                continue;
+            }
+            dump($data);
+            if ($user->username !== $data[0]) {
+                dump($data[0]);
+                $user = User::where('username', $data[0])->first() ?? $user;
+            }
+            $data[0] = $user->id;
+            fputcsv($stream, $data, ",");
+        }
     }
 }
