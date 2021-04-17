@@ -73,4 +73,9 @@ class User extends Model
     {
         return $this->hasMany(AnimeList::class);
     }
+
+    public function anime()
+    {
+        return $this->belongsToMany(Anime::class, 'anime_lists');
+    }
 }

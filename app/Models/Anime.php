@@ -123,4 +123,9 @@ class Anime extends Model
     {
         return $this->hasMany(AnimeList::class);
     }
+
+    public function users()
+    {
+        return $this->belongsToMany(User::class, 'anime_lists');
+    }
 }

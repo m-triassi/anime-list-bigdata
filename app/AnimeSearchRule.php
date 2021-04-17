@@ -29,20 +29,17 @@ class AnimeSearchRule extends SearchRule
         ];
     }
 
-//    /**
-//     * @inheritdoc
-//     */
-//    public function buildQueryPayload()
-//    {
-//        return [
-//            'search_fields' => [
-//                'title' => [
-//                    'weight' => 10
-//                ],
-//                'background' => [
-//                    'weight' => 5
-//                ]
-//            ]
-//        ];
-//    }
+    /**
+     * @inheritdoc
+     */
+    public function buildQueryPayload()
+    {
+        return [
+            'must' => [
+                'query_string' => [
+                    'query' => $this->builder->query,
+                ],
+            ],
+        ];
+    }
 }
