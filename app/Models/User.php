@@ -68,4 +68,9 @@ class User extends Model
             ],
         ]
     ];
+
+    public function lists()
+    {
+        return $this->hasMany(AnimeList::class);
+    }
 }

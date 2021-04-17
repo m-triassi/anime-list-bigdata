@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\AnimeSearchRule;
 use App\Configurators\AnimeIndexConfigurator;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -12,6 +13,10 @@ class Anime extends Model
     use HasFactory, Searchable;
 
     protected $indexConfigurator = AnimeIndexConfigurator::class;
+
+    protected $searchRules = [
+      AnimeSearchRule::class
+    ];
 
     protected $mapping = [
         'properties' => [
@@ -40,7 +45,7 @@ class Anime extends Model
                 'type' => 'integer'
             ],
             'status' => [
-                'type' => 'text'
+                'type' => 'keyword'
             ],
             'airing' => [
                 'type' => 'text'
@@ -52,10 +57,10 @@ class Anime extends Model
                 'type' => 'text'
             ],
             'duration' => [
-                'type' => 'text'
+                'type' => 'keyword'
             ],
             'rating' => [
-                'type' => 'text'
+                'type' => 'keyword'
             ],
             'score' => [
                 'type' => 'float'
@@ -97,7 +102,7 @@ class Anime extends Model
                 'type' => 'text'
             ],
             'genre' => [
-                'type' => 'text'
+                'type' => 'keyword'
             ],
             'opening_theme' => [
                 'type' => 'text'
@@ -113,4 +118,9 @@ class Anime extends Model
             ],
         ]
     ];
+
+    public function lists()
+    {
+        return $this->hasMany(AnimeList::class);
+    }
 }
